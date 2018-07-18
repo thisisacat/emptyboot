@@ -25,6 +25,7 @@ public class DemoEntityServiceImpl extends IServiceImpl<DemoEntity> implements D
     private DemoEntityMapper demoEntityMapper;
 
     @Transactional
+    @Override
     public DemoEntity queryDemoById(Long id){
         DemoEntity query = new DemoEntity();
         query.setId(1L);
