@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Logback Configuration. -->
+<configuration scan="true">
+    <springProfile name="dev">
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%C:%L - [applicationId=%X{applicationId}] %m %n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- sql日志 -->
+    <logger name="druid.sql" level="debug"/>
+    <logger name="druid.sql.DataSource" level="debug"/>
+    <logger name="druid.sql.Connection" level="debug"/>
+    <logger name="druid.sql.Statement" level="debug"/>
+    <logger name="druid.sql.ResultSet" level="debug"/>
+    <logger name="java.sql" level="debug"/>
+
+    <!-- 慢查询日志 -->
+    <logger name="com.alibaba.druid.filter.stat.StatFilter" level="WARN"/>
+
+    <root level="debug">
+        <appender-ref ref="consoleLog" />
+    </root>
+    </springProfile>
+
+
+    <springProfile name="prod,test">
+        <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%C:%L - %m %n</pattern>
+                <charset>utf8</charset>
+            </encoder>
+        </appender>
+
+        <appender name="appLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${catalina.home}/logs/demo-info.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>${catalina.home}/logs/%d{yyyy-MM-dd}/demo-info.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+                <MaxHistory>30</MaxHistory>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <!-- or whenever the file size reaches 100MB -->
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+                <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%C:%L - [applicationId=%X{applicationId}] %m %n</pattern>
+            </encoder>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>info</level>
+            </filter>
+        </appender>
+
+        <!-- 异步输出 -->
+        <appender name ="asyncAppLog" class= "ch.qos.logback.classic.AsyncAppender">
+            <!-- 是否输出classname和Line -->
+            <!--<includeCallerData>true</includeCallerData>-->
+            <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+            <discardingThreshold >20</discardingThreshold>
+            <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+            <queueSize>512</queueSize>
+            <!-- 添加附加的appender,最多只能添加一个 -->
+            <appender-ref ref ="appLog"/>
+        </appender>
+
+        <appender name="filterLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${catalina.home}/logs/demo-filter.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>${catalina.home}/logs/%d{yyyy-MM-dd}/demo-filter.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+                <MaxHistory>30</MaxHistory>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <!-- or whenever the file size reaches 100MB -->
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+                <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%C:%L - %m %n</pattern>
+            </encoder>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>info</level>
+            </filter>
+        </appender>
+
+        <!-- 异步输出 -->
+        <appender name ="asyncFilterLog" class= "ch.qos.logback.classic.AsyncAppender">
+            <!-- 是否输出classname和Line -->
+            <!--<includeCallerData>true</includeCallerData>-->
+            <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+            <discardingThreshold >20</discardingThreshold>
+            <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+            <queueSize>512</queueSize>
+            <!-- 添加附加的appender,最多只能添加一个 -->
+            <appender-ref ref ="filterLog"/>
+        </appender>
+
+        <appender name="sqlLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${catalina.home}/logs/demo-sql.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>${catalina.home}/logs/%d{yyyy-MM-dd}/demo-sql.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+                <MaxHistory>30</MaxHistory>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <!-- or whenever the file size reaches 100MB -->
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+                <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%C:%L - %m %n</pattern>
+            </encoder>
+        </appender>
+
+
+        <appender name="slowSqlLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${catalina.home}/logs/demo-slowSql.log</file>
+            <Append>true</Append>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${catalina.home}/logs/%d{yyyy-MM-dd}/demo-slowSql.log
+                </fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%C:%L - %m %n</pattern>
+            </encoder>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>WARN</level>
+            </filter>
+        </appender>
+
+        <appender name="warnLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${catalina.home}/logs/demo-warn.log</file>
+            <Append>true</Append>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${catalina.home}/logs/%d{yyyy-MM-dd}/demo-warn.log
+                </fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%C:%L - [applicationId=%X{applicationId}] %m %n</pattern>
+            </encoder>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>WARN</level>
+            </filter>
+        </appender>
+
+        <appender name="errorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${catalina.home}/logs/demo-error.log</file>
+            <Append>true</Append>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${catalina.home}/logs/%d{yyyy-MM-dd}/demo-error.log
+                </fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%C:%L - [applicationId=%X{applicationId}] %m %n</pattern>
+            </encoder>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>ERROR</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+        </appender>
+
+
+        <!-- 应用日志 -->
+        <logger name="cn.notacat.cat" level="info" additivity="false">
+            <appender-ref ref="asyncAppLog" />
+            <appender-ref ref="warnLog" />
+            <appender-ref ref="errorLog" />
+        </logger>
+
+        <!-- 访问日志 -->
+        <logger name="cn.notacat.cat.web.filter.LogFilter" level="info" additivity="false">
+            <appender-ref ref="asyncFilterLog" />
+            <appender-ref ref="warnLog" />
+            <appender-ref ref="errorLog" />
+        </logger>
+
+        <!-- sql日志 -->
+        <logger name="java.sql" level="warn" additivity="false">
+            <appender-ref ref="sqlLog"/>
+            <appender-ref ref="warnLog" />
+            <appender-ref ref="errorLog"/>
+        </logger>
+
+        <!-- 慢查询日志 -->
+        <logger name="com.alibaba.druid.filter.stat.StatFilter" level="WARN" additivity="false">
+            <appender-ref ref="slowSqlLog" />
+        </logger>
+
+        <!-- 根日志 -->
+        <root level="info">
+            <appender-ref ref="consoleLog" />
+            <appender-ref ref="warnLog" />
+            <appender-ref ref="errorLog" />
+        </root>
+    </springProfile>
+
+
+</configuration>
