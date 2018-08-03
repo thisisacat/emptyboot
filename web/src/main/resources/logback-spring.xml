@@ -10,11 +10,11 @@
     </appender>
 
     <!-- sql日志 -->
-    <logger name="druid.sql" level="debug"/>
-    <logger name="druid.sql.DataSource" level="debug"/>
-    <logger name="druid.sql.Connection" level="debug"/>
-    <logger name="druid.sql.Statement" level="debug"/>
-    <logger name="druid.sql.ResultSet" level="debug"/>
+    <logger name="druid.sql" level="warn"/>
+    <logger name="druid.sql.DataSource" level="warn"/>
+    <logger name="druid.sql.Connection" level="warn"/>
+    <logger name="druid.sql.Statement" level="warn"/>
+    <logger name="druid.sql.ResultSet" level="warn"/>
     <logger name="java.sql" level="debug"/>
 
     <!-- 慢查询日志 -->

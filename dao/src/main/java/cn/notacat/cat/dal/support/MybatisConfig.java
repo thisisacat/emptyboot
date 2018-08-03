@@ -29,7 +29,15 @@ import java.util.List;
  *
  *****************************************/
 @Configuration
-@MapperScan(basePackages={"cn.notacat.cat.dal.dao.mapper"}, sqlSessionFactoryRef="sqlSessionFactory")
+@MapperScan(basePackages={"cn.notacat.cat.dal.dao.mapper"},
+        sqlSessionFactoryRef="sqlSessionFactory",
+        properties = {
+                "notEmpty=false",
+                "IDENTITY=MYSQL",
+                "safeDelete=true",
+                "safeUpdate=true",
+                "checkExampleEntityClass=true"
+        })
 public class MybatisConfig{
 
     @Autowired

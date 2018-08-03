@@ -1,5 +1,6 @@
 package cn.notacat.cat.dal.base.tkmybatis;
 
+import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
 
@@ -10,6 +11,7 @@ import tk.mybatis.mapper.common.MySqlMapper;
  * @@VERSION :
  *
  *****************************************/
+@RegisterMapper
 public interface IMapper<T> extends Mapper<T>, MySqlMapper<T> {
 
 
