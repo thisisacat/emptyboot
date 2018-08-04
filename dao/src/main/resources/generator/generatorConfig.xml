@@ -28,9 +28,9 @@
     <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}" type="XMLMAPPER" />
 
 
-    <table tableName="demo" domainObjectName="DemoEntity">
+    <table tableName="uuid_demo" domainObjectName="UUIDDemoEntity">
       <property name="rootClass" value="cn.notacat.cat.dal.base.tkmybatis.IEntity" />
-      <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+      <!--<generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
     </table>
   </context>
 </generatorConfiguration>
