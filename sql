@@ -9,5 +9,11 @@ CREATE TABLE `demo`(
 	`gmt_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
 )COMMENT = 'demo';
 
-
+-- uuiddemo
+CREATE TABLE `uuid_demo` (
+  `id` varchar(32) NOT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
 
