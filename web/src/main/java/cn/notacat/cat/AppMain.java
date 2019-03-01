@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ImportResource;
  * @@CREATE : 2018-06-19 下午4:26
  * @@AUTH : NOT A CAT【NOTACAT@CAT.ORZ】
  * @@DESCRIPTION :
- * @@VERSION :a
+ * @@VERSION :aa
  *
  *****************************************/
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
