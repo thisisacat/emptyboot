@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -66,7 +67,11 @@ public class GlobalExceptionHandler {
             res.setStatus(StatusCode.MAXIMUM_UPLOAD_SIZE_ERROR.getStatus());
             res.setMsg(StatusCode.MAXIMUM_UPLOAD_SIZE_ERROR.getMsg());
             logger.warn("请求{}异常信息",request.getRequestURL(),ex);
-        }else{
+        } else if(ex instanceof HttpMediaTypeException){
+            res.setStatus(StatusCode.MEDIATYPE_ERROR.getStatus());
+            res.setMsg(StatusCode.MEDIATYPE_ERROR.getMsg());
+            logger.warn("请求{}异常信息",request.getRequestURL(),ex);
+        } else{
             res.setStatus(StatusCode.UNKNOW_ERROR.getStatus());
             res.setMsg(StatusCode.UNKNOW_ERROR.getMsg());
             logger.error("请求{}异常信息",request.getRequestURL(),ex);
