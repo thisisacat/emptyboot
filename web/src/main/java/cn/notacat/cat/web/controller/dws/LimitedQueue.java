@@ -1,4 +1,4 @@
-package cn.notacat.cat.web.util;
+package cn.notacat.cat.web.controller.dws;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
