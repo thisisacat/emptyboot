@@ -27,8 +27,9 @@ import java.util.Map;
  * @@VERSION :
  *
  *****************************************/
-@Controller
-@RequestMapping("${server.error.path:${error.path:/error}}")
+@Deprecated
+//@Controller
+//@RequestMapping("${server.error.path:${error.path:/error}}")
 public class GlobalErrorController implements ErrorController {
     private static final Logger logger = LoggerFactory.getLogger(GlobalErrorController.class);
     private final ErrorAttributes errorAttributes;
@@ -47,7 +48,7 @@ public class GlobalErrorController implements ErrorController {
     public Response<String> error(HttpServletRequest request, HttpServletResponse response) {
         response.reset();
         // 设置状态码
-        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.setStatus(HttpStatus.OK.value());
         response.setHeader("Cache-Control", "no-cache");
         Response<String> res = new Response<String>();
         res.setStatus(StatusCode.SYSTEM_ERROR.getStatus());
