@@ -27,9 +27,8 @@ import java.util.Map;
  * @@VERSION :
  *
  *****************************************/
-@Deprecated
-//@Controller
-//@RequestMapping("${server.error.path:${error.path:/error}}")
+@Controller
+@RequestMapping("${server.error.path:${error.path:/error}}")
 public class GlobalErrorController implements ErrorController {
     private static final Logger logger = LoggerFactory.getLogger(GlobalErrorController.class);
     private final ErrorAttributes errorAttributes;
@@ -46,13 +45,14 @@ public class GlobalErrorController implements ErrorController {
     @RequestMapping
     @ResponseBody
     public Response<String> error(HttpServletRequest request, HttpServletResponse response) {
+        int status = response.getStatus();
         response.reset();
         // 设置状态码
-        response.setStatus(HttpStatus.OK.value());
+        response.setStatus(status);
         response.setHeader("Cache-Control", "no-cache");
         Response<String> res = new Response<String>();
-        res.setStatus(StatusCode.SYSTEM_ERROR.getStatus());
-        res.setMsg(StatusCode.SYSTEM_ERROR.getMsg());
+        res.setStatus(StatusCode.OTHER_ERROR.getStatus());
+        res.setMsg(StatusCode.OTHER_ERROR.getMsg());
         Map<String, Object> body = getErrorAttributes(request, isIncludeStackTrace(request, MediaType.ALL));
         logger.error("请求{}异常信息:{}",request.getRequestURL(), JSON.toJSONString(body));
         return res;
