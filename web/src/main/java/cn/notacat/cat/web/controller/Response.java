@@ -2,13 +2,19 @@ package cn.notacat.cat.web.controller;
 
 import cn.notacat.cat.biz.exception.status.EnumStatus;
 import cn.notacat.cat.biz.exception.status.StatusCode;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
+@ApiModel(value="通用返回结果")
 public class Response <T> implements Serializable{
 	private static final long serialVersionUID = 1L;
+	@ApiModelProperty("状态")
 	private int status;
+	@ApiModelProperty("说明、描述")
 	private String msg;
+	@ApiModelProperty("通用返回结果内容")
 	private T data;
 	
 	

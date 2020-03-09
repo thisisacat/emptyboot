@@ -9,13 +9,15 @@ import cn.notacat.cat.dal.dao.entity.demo.UUIDDemoEntity;
 import cn.notacat.cat.web.controller.BaseController;
 import cn.notacat.cat.web.controller.Response;
 import com.github.pagehelper.PageHelper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import java.util.List;
  *****************************************/
 @Controller
 @RequestMapping("/demo")
+@Api(value = "demoAPI")
 public class DemoController extends BaseController{
     private final static Logger logger = LoggerFactory.getLogger(DemoController.class);
 
@@ -44,9 +47,10 @@ public class DemoController extends BaseController{
      *
      * @return
      */
-    @RequestMapping("selectEntity")
+    @ApiOperation(value = "selectEntity")
     @ResponseBody
-    public Response<DemoEntity> selectEntity()  {
+    @GetMapping("selectEntity")
+    public Response<DemoEntity> selectEntity(@RequestParam String id)  {
         DemoEntity entity1 = demoEntityService.queryDemoById(1L);
         DemoEntity query = new DemoEntity();
         query.setId(1L);
@@ -59,9 +63,11 @@ public class DemoController extends BaseController{
      *
      * @return
      */
-    @RequestMapping("selectByExample")
+    @ApiOperation(value = "selectByExample")
+    @ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id", paramType = "query",required = true) })
     @ResponseBody
-    public Response<DemoEntity> selectByExample() {
+    @GetMapping("selectByExample")
+    public Response<DemoEntity> selectByExample(String id) {
         // 或则写在service层用mapper操作
         Example example = new Example(DemoEntity.class);
         Example.Criteria criteria = example.createCriteria();
@@ -76,7 +82,8 @@ public class DemoController extends BaseController{
      *
      * @return
      */
-    @RequestMapping("selectPage")
+    @ApiOperation(value = "selectPageByObject")
+    @GetMapping("selectPage")
     @ResponseBody
     public Response<Page<DemoEntity>> selectPageByObject(@RequestParam(required = false, defaultValue = PageConstant.PAGE_NO_ONE_STR) Integer pageNo,
                                                          @RequestParam(required = false, defaultValue = PageConstant.PAGE_DEFAULT_SIZE_STR) Integer pageSize) {
@@ -92,7 +99,7 @@ public class DemoController extends BaseController{
 
 
 
-    @RequestMapping("test1")
+    @PostMapping("test1")
     @ResponseBody
     public Response<DemoEntity> test1() {
         /***********************查询*****************/
@@ -128,7 +135,7 @@ public class DemoController extends BaseController{
     }
 
 
-    @RequestMapping("test2")
+    @PostMapping("test2")
     @ResponseBody
     public String test2() {
         /***********************新增*****************/
@@ -154,7 +161,7 @@ public class DemoController extends BaseController{
         return null;
     }
 
-    @RequestMapping("test3")
+    @PostMapping("test3")
     @ResponseBody
     public String test3() {
         /***********************修改*****************/
@@ -176,7 +183,7 @@ public class DemoController extends BaseController{
         return null;
     }
 
-    @RequestMapping("test4")
+    @PostMapping("test4")
     @ResponseBody
     public String test4() {
         /***********************删除*****************/
@@ -196,7 +203,8 @@ public class DemoController extends BaseController{
     }
 
 
-    @RequestMapping("uuidtest2")
+
+    @PostMapping("uuidtest2")
     @ResponseBody
     public String uuidtest2() {
         /***********************uuid新增*****************/

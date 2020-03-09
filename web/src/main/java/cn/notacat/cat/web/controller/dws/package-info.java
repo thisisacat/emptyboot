@@ -15,5 +15,6 @@ package cn.notacat.cat.web.controller.dws;
 //todo 5 valid几个,枚举 list 的valid
 //todo 6 项目整理成 core client的形式
 //todo 7 项目用boot配置的日志
-//todo 8 集成swag,boot admin
+//todo 8 boot admin
 //todo 9 升级tkmapper
+//todo 10 Swagger2整理

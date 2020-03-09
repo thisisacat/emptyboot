@@ -15,8 +15,8 @@ import java.util.Arrays;
  * @date 2019/4/24 9:39
  **/
 
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class ValidAop {
     /*所有方法都会执行此切面*/
     @Pointcut("@annotation(cn.notacat.cat.web.controller.demo.ValidAnn)")
